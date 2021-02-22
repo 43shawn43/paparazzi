@@ -66,7 +66,7 @@
       <configure name="GPS_BAUD" value="B57600"/>
     </module>
     <module name="gps" type="ubx_ucenter" />
-    <module name="stabilization" type="int_quat" />
+    <module name="stabilization" type="indi_simple" />
     <!--<module name="stabilization" type="float_quat"/>-->
     <!--<module name="stabilization" type="rate_indi"/>-->
     <module name="ins" type="ekf2">
@@ -196,20 +196,16 @@
     <define name="TRIM_ROLL" value="0" />
     <define name="TRIM_PITCH" value="0" />
     <define name="TRIM_YAW" value="0" />
-    <define name="SCALE"  value="256"/>
-    <define name="NB_MOTOR"    value="4"/>
-    <define name="ROLL_COEF" value="{ 256, -256, -256, 256 }"/>
-    <define name="PITCH_COEF" value="{ 256, 256, -256, -256 }"/>
-    <define name="YAW_COEF" value ="{ 256, -256, 256, -256 }"/>
-    <define name="THRUST_COEF" value="{ 256, 256, 256, 256 }"/>
+    <define name="REVERSE" value="TRUE" />
+    <define name="TYPE" value="QUAD_X" />
   </section>
 
   <command_laws>
     <call fun="motor_mixing_run(autopilot_get_motors_on(),FALSE,values)" />
-    <set servo="TOP_LEFT" value="motor_mixing.commands[0]" />
-    <set servo="TOP_RIGHT" value="motor_mixing.commands[1]" />
-    <set servo="BOTTOM_RIGHT" value="motor_mixing.commands[2]" />
-    <set servo="BOTTOM_LEFT" value="motor_mixing.commands[3]" />
+    <set servo="TOP_LEFT" value="motor_mixing.commands[MOTOR_FRONT_LEFT]" />
+    <set servo="TOP_RIGHT" value="motor_mixing.commands[MOTOR_FRONT_RIGHT]" />
+    <set servo="BOTTOM_RIGHT" value="motor_mixing.commands[MOTOR_BACK_RIGHT]" />
+    <set servo="BOTTOM_LEFT" value="motor_mixing.commands[MOTOR_BACK_LEFT]" />
     <set servo="RELEASE_SERVO" value="@RELEASE" />
   </command_laws>
 
@@ -262,34 +258,34 @@
 
   <section name="STABILIZATION_ATTITUDE_INDI" prefix="STABILIZATION_INDI_">
     <!-- control effectiveness -->
-    <define name="G1_P" value="0.02692" />
-    <define name="G1_Q" value="0.025867" />
-    <define name="G1_R" value="0.002055" />
-    <define name="G2_R" value="0.15865" />
+    <define name="G1_P" value="0.01965369" />
+    <define name="G1_Q" value="0.018093345" />
+    <define name="G1_R" value="0.002" />
+    <define name="G2_R" value="0.0000000" />
     <!-- For the bebop2 we need to filter the roll rate due to the dampers -->
     <define name="FILTER_ROLL_RATE" value="FALSE" />
     <define name="FILTER_PITCH_RATE" value="FALSE" />
     <define name="FILTER_YAW_RATE" value="FALSE" />
     <!-- reference acceleration for attitude control -->
-    <define name="REF_ERR_P" value="100.0" />
-    <define name="REF_ERR_Q" value="100.0" />
-    <define name="REF_ERR_R" value="100.0" />
-    <define name="REF_RATE_P" value="14.0" />
-    <define name="REF_RATE_Q" value="14.0" />
-    <define name="REF_RATE_R" value="14.0" />
+    <define name="REF_ERR_P" value="200" />
+    <define name="REF_ERR_Q" value="200" />
+    <define name="REF_ERR_R" value="7.5" />
+    <define name="REF_RATE_P" value="27.5" />
+    <define name="REF_RATE_Q" value="27.5" />
+    <define name="REF_RATE_R" value="4" />
     <!-- second order filter parameters -->
-    <define name="FILT_CUTOFF" value="3.2"/>
-    <define name="FILT_CUTOFF_R" value="3.2"/>
+    <define name="FILT_CUTOFF" value="3"/>
+    <define name="FILT_CUTOFF_R" value="0.5"/>
     <!-- first order actuator dynamics -->
-    <define name="ACT_DYN_P" value="0.04" />
-    <define name="ACT_DYN_Q" value="0.04" />
-    <define name="ACT_DYN_R" value="0.04" />
+    <define name="ACT_DYN_P" value="0.0354" />
+    <define name="ACT_DYN_Q" value="0.0354" />
+    <define name="ACT_DYN_R" value="0.0354" />
     <!-- Adaptive Learning Rate -->
     <define name="USE_ADAPTIVE" value="FALSE" />
     <define name="ADAPTIVE_MU" value="0.0001" />
-    <!-- max rates (conservative) -->
-    <define name="STABILIZATION_INDI_MAX_RATE" value="343.77" unit="deg/s"/>
-    <define name="STABILIZATION_INDI_MAX_R" value="200" unit="deg/s"/> <!--Does not seem to be applied-->
+
+    <!-- max yaw rate (conservative) -->
+    <define name="MAX_R" value="50" unit="deg/s"/> <!--Does not seem to be applied-->
   </section>
 
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
@@ -318,16 +314,16 @@
     <define name="REF_MAX_RDOT" value="RadOfDeg(4000.)"/>
 
     <!-- feedback -->
-    <define name="PHI_PGAIN" value="300"/>
-    <define name="PHI_DGAIN" value="100"/>
+    <define name="PHI_PGAIN" value="600"/>
+    <define name="PHI_DGAIN" value="200"/>
     <define name="PHI_IGAIN" value="40"/>
 
-    <define name="THETA_PGAIN" value="350"/>
-    <define name="THETA_DGAIN" value="150"/>
+    <define name="THETA_PGAIN" value="750"/>
+    <define name="THETA_DGAIN" value="250"/>
     <define name="THETA_IGAIN" value="40"/>
 
-    <define name="PSI_PGAIN" value="750"/>
-    <define name="PSI_DGAIN" value="300"/>
+    <define name="PSI_PGAIN" value="1500"/>
+    <define name="PSI_DGAIN" value="600"/>
     <define name="PSI_IGAIN" value="10"/>
 
     <!-- feedforward -->
