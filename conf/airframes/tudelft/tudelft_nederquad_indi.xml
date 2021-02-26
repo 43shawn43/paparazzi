@@ -67,8 +67,12 @@
     </module>
     <module name="gps" type="ubx_ucenter" />
     <module name="stabilization" type="indi_simple" />
-    <!--<module name="stabilization" type="float_quat"/>-->
-    <!--<module name="stabilization" type="rate_indi"/>-->
+  
+    <!--<module name="ahrs" type="float_cmpl_quat">
+    <configure name="USE_MAGNETOMETER" value="false"/>
+    <define name="AHRS_USE_GPS_HEADING" value="false"/>
+    </module>-->
+
     <module name="ins" type="ekf2">
       <!--<define name="INS_EKF2_MAG_ID" value="MAG_HMC58XX_SENDER_ID"/>-->
     </module>
@@ -149,7 +153,7 @@
     <define name="ACCEL_Y_SENS" value="4.836131753637321" integer="16"/>
     <define name="ACCEL_Z_SENS" value="4.896888362921523" integer="16"/>
 
-    <define name="BODY_TO_IMU_PHI"   value="-1.5" unit="deg"/>
+    <define name="BODY_TO_IMU_PHI"   value="-3." unit="deg"/>
     <define name="BODY_TO_IMU_THETA" value="49.9" unit="deg"/>
     <define name="BODY_TO_IMU_PSI"   value="0." unit="deg"/>
 
@@ -263,16 +267,16 @@
     <define name="G1_R" value="0.002" />
     <define name="G2_R" value="0.0000000" />
     <!-- For the bebop2 we need to filter the roll rate due to the dampers -->
-    <define name="FILTER_ROLL_RATE" value="FALSE" />
-    <define name="FILTER_PITCH_RATE" value="FALSE" />
-    <define name="FILTER_YAW_RATE" value="FALSE" />
+    <define name="FILTER_ROLL_RATE" value="TRUE" />
+    <define name="FILTER_PITCH_RATE" value="TRUE" />
+    <define name="FILTER_YAW_RATE" value="TRUE" />
     <!-- reference acceleration for attitude control -->
-    <define name="REF_ERR_P" value="200" />
-    <define name="REF_ERR_Q" value="200" />
-    <define name="REF_ERR_R" value="7.5" />
-    <define name="REF_RATE_P" value="27.5" />
-    <define name="REF_RATE_Q" value="27.5" />
-    <define name="REF_RATE_R" value="4" />
+    <define name="REF_ERR_P" value="150" />
+    <define name="REF_ERR_Q" value="150" />
+    <define name="REF_ERR_R" value="49" />
+    <define name="REF_RATE_P" value="22.5" />
+    <define name="REF_RATE_Q" value="22.5" />
+    <define name="REF_RATE_R" value="6" />
     <!-- second order filter parameters -->
     <define name="FILT_CUTOFF" value="3"/>
     <define name="FILT_CUTOFF_R" value="0.5"/>
@@ -285,7 +289,7 @@
     <define name="ADAPTIVE_MU" value="0.0001" />
 
     <!-- max yaw rate (conservative) -->
-    <define name="MAX_R" value="50" unit="deg/s"/> <!--Does not seem to be applied-->
+    <define name="MAX_R" value="40" unit="deg/s"/> <!--Does not seem to be applied-->
   </section>
 
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
