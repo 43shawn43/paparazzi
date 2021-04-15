@@ -8,4 +8,5 @@
     "[python]": {
         "editor.tabSize": 4,
     },
+    "C_Cpp.dimInactiveRegions": false,
 }

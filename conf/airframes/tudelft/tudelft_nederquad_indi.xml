@@ -67,7 +67,7 @@
     </module>
     <module name="gps" type="ubx_ucenter" />
     <module name="stabilization" type="indi_simple" />
-  
+    <module name="stabilization" type="rate_indi" />
     <!--<module name="ahrs" type="float_cmpl_quat">
     <configure name="USE_MAGNETOMETER" value="false"/>
     <define name="AHRS_USE_GPS_HEADING" value="false"/>
@@ -289,7 +289,7 @@
     <define name="ADAPTIVE_MU" value="0.0001" />
 
     <!-- max yaw rate (conservative) -->
-    <define name="MAX_R" value="40" unit="deg/s"/> <!--Does not seem to be applied-->
+    <define name="MAX_R" value="360" unit="deg/s"/> <!--Does not seem to be applied-->
   </section>
 
   <section name="STABILIZATION_ATTITUDE" prefix="STABILIZATION_ATTITUDE_">
@@ -359,7 +359,7 @@
   <section name="AUTOPILOT">
     <define name="MODE_STARTUP" value="AP_MODE_ATTITUDE_DIRECT" />
     <define name="MODE_MANUAL" value="AP_MODE_ATTITUDE_DIRECT" />
-    <define name="MODE_AUTO1" value="AP_MODE_ATTITUDE_DIRECT" />
+    <define name="MODE_AUTO1" value="AP_MODE_RATE_DIRECT" />
     <define name="MODE_AUTO2" value="AP_MODE_ATTITUDE_DIRECT" />
 <!--    <define name="MODE_AUTO2" value="AP_MODE_RATE_DIRECT" />-->
     <define name="NO_RC_THRUST_LIMIT" value="TRUE" />
