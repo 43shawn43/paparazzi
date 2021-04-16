@@ -1,0 +1,23 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+<module name="step_stab_att_quat_int" dir="step_stab_att">
+  <doc>
+    <description>
+      step input module on stab_att_indi_quat reference system
+    </description>
+  </doc>
+  <settings>
+    <dl_settings>
+      <dl_settings name="step att">
+        <dl_setting MAX="1" MIN="1" STEP="1" VAR="step_yaw.add_yaw_step" shortname="add yaw step"/>
+        <dl_setting min="-90" max="90" step="1" var="step_yaw.yaw_step_size" shortname="add yaw"/>
+      </dl_settings>
+    </dl_settings>
+  </settings>
+  <header>
+    <file name="step_stab_att_quat_int.h"/>
+  </header>
+  <event fun="step_stab_att_quat_int_event()"/>
+  <makefile>
+    <file name="step_stab_att_quat_int.c"/>
+  </makefile>
+</module>
