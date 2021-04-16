@@ -64,9 +64,11 @@ void step_stab_att_quat_int_event(void)
 
     #if defined STABILIZATION_ATTITUDE_TYPE_INT
       stab_att_sp_euler.psi += ANGLE_BFP_OF_REAL(step_yaw.yaw_step_size / 180. * 3.141592); // To radians
+      INT32_ANGLE_NORMALIZE(stab_att_sp_euler.psi);
       float_quat_of_axis_angle(&q_yaw_sp, &zaxis, ANGLE_FLOAT_OF_BFP(stab_att_sp_euler.psi));
     #else
       stab_att_sp_euler.psi += step_yaw.yaw_step_size / 180. * 3.141592; // To radians
+      FLOAT_ANGLE_NORMALIZE(stab_att_sp_euler.psi);
       float_quat_of_axis_angle(&q_yaw_sp, &zaxis, stab_att_sp_euler.psi);
     #endif
 
