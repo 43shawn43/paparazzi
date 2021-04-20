@@ -130,10 +130,11 @@ static void send_att_indi(struct transport_tx *trans, struct link_device *dev)
   RATES_SMUL(g1_disp, indi.est.g1, INDI_EST_SCALE);
   float g2_disp = indi.est.g2 * INDI_EST_SCALE;
 
+struct FloatRates *body_rates = stateGetBodyRates_f();
   pprz_msg_send_STAB_ATTITUDE_INDI(trans, dev, AC_ID,
-                                   &indi.rate_d[0],
-                                   &indi.rate_d[1],
-                                   &indi.rate_d[2],
+                                   &body_rates->p,
+                                   &body_rates->q,
+                                   &body_rates->r,
                                    &indi.angular_accel_ref.p,
                                    &indi.angular_accel_ref.q,
                                    &indi.angular_accel_ref.r,

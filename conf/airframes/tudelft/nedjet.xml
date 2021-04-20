@@ -139,6 +139,9 @@
     </module>
 
     <module name="motor_mixing"/>
+
+    <module name="step_stab_att_quat_int"/>
+
   </firmware>
 
   <servos driver="Uavcan">
