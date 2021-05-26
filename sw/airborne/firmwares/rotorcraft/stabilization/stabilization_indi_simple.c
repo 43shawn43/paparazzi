@@ -130,16 +130,19 @@ static void send_att_indi(struct transport_tx *trans, struct link_device *dev)
   float g2_disp = indi.est.g2 * INDI_EST_SCALE;
 struct FloatRates *body_rates = stateGetBodyRates_f(); 
   pprz_msg_send_STAB_ATTITUDE_INDI(trans, dev, AC_ID,
-                                   &body_rates->p,
-                                   &body_rates->q,
-                                   &body_rates->r,
+                                   &indi.rate_d[0],
+                                   &indi.rate_d[1],
+                                   &indi.rate_d[2],
                                    &indi.angular_accel_ref.p,
                                    &indi.angular_accel_ref.q,
                                    &indi.angular_accel_ref.r,
                                    &g1_disp.p,
                                    &g1_disp.q,
                                    &g1_disp.r,
-                                   &g2_disp);
+                                   &g2_disp,
+                                   &body_rates->p,
+                                   &body_rates->q,
+                                   &body_rates->r);
 }
 
 static void send_ahrs_ref_quat(struct transport_tx *trans, struct link_device *dev)
@@ -363,14 +366,21 @@ void stabilization_indi_rate_run(struct FloatRates rate_sp, bool in_flight __att
   indi.u_act_dyn.q = indi.u_act_dyn.q + STABILIZATION_INDI_ACT_DYN_Q * (indi.u_in.q - indi.u_act_dyn.q);
   indi.u_act_dyn.r = indi.u_act_dyn.r + STABILIZATION_INDI_ACT_DYN_R * (indi.u_in.r - indi.u_act_dyn.r);
 
-  //Don't increment if thrust is off
-  //TODO: this should be something more elegant, but without this the inputs
-  //will increment to the maximum before even getting in the air.
-  if (stabilization_cmd[COMMAND_THRUST] < 300) {
-    FLOAT_RATES_ZERO(indi.du);
-    FLOAT_RATES_ZERO(indi.u_act_dyn);
+ //Don't increment if thrust is off and on the ground
+  //without this the inputs will increment to the maximum before even getting in the air.
+  if (stabilization_cmd[COMMAND_THRUST] < 300 && !in_flight) {
     FLOAT_RATES_ZERO(indi.u_in);
+
+    // If on the ground, no increments, just proportional control
+    indi.u_in.p = indi.du.p;
+    indi.u_in.q = indi.du.q;
+    indi.u_in.r = indi.du.r;
   } else {
+    //add the increment to the total control input
+    indi.u_in.p = indi.du.p;
+    indi.u_in.q = indi.du.q;
+    indi.u_in.r = indi.du.r;
+
     // only run the estimation if the commands are not zero.
     lms_estimation();
   }
