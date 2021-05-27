@@ -343,9 +343,9 @@
 
   <section name="STABILIZATION_ATTITUDE_INDI" prefix="STABILIZATION_INDI_">
     <!-- control effectiveness -->
-    <define name="G1_P" value="0.0048"/> <!-- was 0.0048 -->
-    <define name="G1_Q" value="0.0045"/> <!-- was 0.0079 -->
-    <define name="G1_R" value="0.0011"/> <!-- was 0.0015 -->
+    <define name="G1_P" value="0.0048"/> <!-- 0.0048 for 8act, 0.0048 for 4 act -->
+    <define name="G1_Q" value="0.0045"/> <!-- 0.0079 for 8act, 0.0045 for 4 act-->
+    <define name="G1_R" value="0.0011"/> <!-- 0.0015 for 8act, 0.0011 for 4 act -->
     <define name="G2_R" value="0.000"/>
 
     <define name="FORWARD_G1_P" value="0.0048"/>
