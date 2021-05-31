@@ -132,16 +132,19 @@ static void send_att_indi(struct transport_tx *trans, struct link_device *dev)
 
 struct FloatRates *body_rates = stateGetBodyRates_f();
   pprz_msg_send_STAB_ATTITUDE_INDI(trans, dev, AC_ID,
-                                   &body_rates->p,
-                                   &body_rates->q,
-                                   &body_rates->r,
+                                   &indi.rate_d[0],
+                                   &indi.rate_d[1],
+                                   &indi.rate_d[2],
                                    &indi.angular_accel_ref.p,
                                    &indi.angular_accel_ref.q,
                                    &indi.angular_accel_ref.r,
                                    &g1_disp.p,
                                    &g1_disp.q,
                                    &g1_disp.r,
-                                   &g2_disp);
+                                   &g2_disp,
+                                   &body_rates->p,
+                                   &body_rates->q,
+                                   &body_rates->r);
 }
 
 static void send_ahrs_ref_quat(struct transport_tx *trans, struct link_device *dev)
