@@ -89,7 +89,7 @@
     <!--<module name="stabilization" type="int_quat"/>-->
     <!--<module name="gain_scheduling"/>-->
     <module name="stabilization" type="indi_simple"/>
-    <module name="scheduling_indi_simple"/>
+    <!-- <module name="scheduling_indi_simple"/> -->
     <module name="stabilization" type="rate"/>
     <module name="ins" type="ekf2" />
     <!--module name="airspeed" type="ms45xx_i2c"> 
